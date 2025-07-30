@@ -5,6 +5,7 @@ import inflect
 import re
 from .utils import camel_to_kebab
 from . import viewsets as vs_module
+from . import views
 
 router = DefaultRouter()
 
@@ -23,4 +24,9 @@ for attr_name in dir(vs_module):
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("signup", views.RegistrationAPI.as_view(), name="register"),
+    path("cookie-logout", views.CookieLogoutView.as_view(), name="cookie-logout"),
+    path("cookie-login", views.CookieLoginView.as_view(), name="cookie-login"),
+    path("cookie-reauth", views.CookieReauthView.as_view(), name="cookie-reauth"),
+    path("csrf/", views.csrf),
 ]

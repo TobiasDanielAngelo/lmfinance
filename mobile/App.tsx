@@ -3,6 +3,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NativeRouter, Route, Routes } from "react-router-native";
 import { createStore, StoreContext } from "./src/api/Store";
 import { MainView } from "./src/components/main/MainView";
+import { LoginView } from "./src/components/main/LoginView";
 
 export default function App() {
   const store = createStore();
@@ -12,6 +13,7 @@ export default function App() {
         <NativeRouter>
           <Routes>
             <Route path="/*" element={<MainView />} />
+            <Route path="/login" element={<LoginView />} />
           </Routes>
         </NativeRouter>
       </StoreContext.Provider>

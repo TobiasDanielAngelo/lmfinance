@@ -20,6 +20,7 @@ import {
 } from ".";
 import { Store } from "./Store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LoginInterface } from "./UserStore";
 
 type KeystoneModel<U> = {
   id: number | string | null;
@@ -236,6 +237,41 @@ export function MyStore<
       }
 
       return result;
+    });
+
+    @modelFlow
+    authBase = _async(function* (
+      this: GenericStore,
+      method: "login" | "reauth" | "logout",
+      credentials?: LoginInterface
+    ) {
+      let result;
+      try {
+        result = yield* _await(
+          postItemRequest(`cookie-${method}`, credentials)
+        );
+        if (result?.data && "key" in result?.data && method !== "logout") {
+          AsyncStorage.setItem("token", result.data.key as string);
+        }
+        if (method === "logout") {
+          AsyncStorage.removeItem("token");
+        }
+      } catch (error) {
+        // Swal.fire({
+        //   icon: "error",
+        //   title: "Network Error",
+        // });
+        error;
+        return { details: "Network Error", ok: false, data: null };
+      }
+      if (!result.ok || !result.data) {
+        // Swal.fire({
+        //   icon: "error",
+        //   title: "An error has occurred.",
+        // });
+        return { details: "An Error Occurred", ok: false, data: null };
+      }
+      return { details: "", ok: true, data: null };
     });
 
     @modelAction

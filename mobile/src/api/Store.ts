@@ -1,12 +1,13 @@
 import { model, Model, prop } from "mobx-keystone";
 import { createContext, useContext } from "react";
-import { ReportStore } from "./ReportStore";
-import { MemberStore } from "./MemberStore";
 import { CollectionStore } from "./CollectionStore";
 import { ExpenseStore } from "./ExpenseStore";
-import { TransferStore } from "./TransferStore";
-import { SettingStore } from "./SettingStore";
 import { IncomeStore } from "./IncomeStore";
+import { MemberStore } from "./MemberStore";
+import { ReportStore } from "./ReportStore";
+import { SettingStore } from "./SettingStore";
+import { TransferStore } from "./TransferStore";
+import { UserStore } from "./UserStore";
 
 @model("myApp/Store")
 export class Store extends Model({
@@ -17,6 +18,7 @@ export class Store extends Model({
   incomeStore: prop<IncomeStore>(),
   transferStore: prop<TransferStore>(),
   settingStore: prop<SettingStore>(),
+  userStore: prop<UserStore>(),
 }) {}
 
 export const createStore = () =>
@@ -28,6 +30,7 @@ export const createStore = () =>
     transferStore: new TransferStore({}),
     incomeStore: new IncomeStore({}),
     settingStore: new SettingStore({}),
+    userStore: new UserStore({}),
   });
 
 export const StoreContext = createContext<Store | null>(null);
